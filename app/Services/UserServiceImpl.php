@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\AuthenticationException;
 use App\Repositories\Interface\UserRepository;
@@ -41,5 +42,15 @@ class UserServiceImpl implements InterfaceUserService
             "expiration" => $token->accessToken->expires_at->toDateTimeString(),
             "token_type" => "Bearer"
         ];
+    }
+
+    public function logout()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        /** @var \Laravel\Sanctum\PersonalAccessToken|null $token */
+        $token = $user?->currentAccessToken();
+        $token?->delete();
     }
 }
