@@ -11,4 +11,9 @@ class UserRepositoryImpl implements UserRepository
     {
         return User::create($data);
     }
+
+    public function findByEmail(string $email)
+    {
+        return User::where('email', $email)->first();
+    }
 }

@@ -5,4 +5,5 @@ namespace App\Repositories\Interface;
 interface UserRepository
 {
     public function createUser(array $data);
+    public function findByEmail(string $email);
 }
