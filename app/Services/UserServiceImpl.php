@@ -51,6 +51,34 @@ class UserServiceImpl implements InterfaceUserService
 
         /** @var \Laravel\Sanctum\PersonalAccessToken|null $token */
         $token = $user?->currentAccessToken();
-        $token?->delete();
+        return $token?->delete();
+    }
+
+    public function getCurrentUser()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        return $user;
+    }
+
+    public function updateCurrentUser(array $data)
+    {
+        Log::info($data);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->update($data);
+        return $user;
+    }
+
+    public function updatePassword(array $data)
+    {
+        Log::info($data);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->update([
+            'password' => Hash::make($data['new_password'])
+        ]);
+        return $user;
     }
 }
